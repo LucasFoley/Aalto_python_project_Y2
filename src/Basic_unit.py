@@ -1,10 +1,14 @@
 import random
-#test working?
+
+
+def positions():
+    enemy_positions = [1, 2, 3]
+    ally_positions = [1, 2, 3]
+
 
 class BasicUnit:
 
-    def __init__(self, name):
-        self.name = name
+    def __init__(self):
         self.hp = 50
         self.atk = 10
         self.armor = 3
@@ -68,7 +72,7 @@ class Wizard(BasicUnit):
 
     def stun(self):
         number = random.randint(0, 100)
-        if number >= 50:
+        if number <= 50:
             return True
         else:
             return False
@@ -87,7 +91,7 @@ class Healer(BasicUnit):
         self.armor = 5
 
     def use_special(self, target):
-        target.hp += 20
+        target.hp += 15
 
 
 class Warrior(BasicUnit):
@@ -99,4 +103,4 @@ class Warrior(BasicUnit):
 
     def use_special(self):
         self.atk += 10
-        self.armor += 5
+        self.armor += 2

@@ -8,6 +8,13 @@ app = QApplication(sys.argv)
 window = QWidget()
 window.setWindowTitle("Dark Dungeon")
 window.setMinimumSize(1000, 800)
+window.setStyleSheet("""
+        QWidget {
+            border: 20px solid black;
+            border-radius: 10px;
+            background-color: rgb(255, 255, 255);
+            }
+        """)
 
 window.show()
 sys.exit(app.exec_())
