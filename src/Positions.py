@@ -1,4 +1,5 @@
 def positions():
 
-    enemy_positions = []
-    ally_positions = []
+    enemy_positions = [1, 2, 3]
+    ally_positions = [1, 2, 3]
+

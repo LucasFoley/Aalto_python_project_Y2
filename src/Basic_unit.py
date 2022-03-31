@@ -44,7 +44,7 @@ class BasicUnit:
 class EnemyMinion(BasicUnit):
 
     def __init__(self):
-        super.__init__()
+        super().__init__()
 
 
 class EnemyBrute(BasicUnit):
@@ -86,6 +86,9 @@ class Healer(BasicUnit):
         self.atk = 15
         self.armor = 5
 
+    def use_special(self, target):
+        target.hp += 20
+
 
 class Warrior(BasicUnit):
 
@@ -93,3 +96,7 @@ class Warrior(BasicUnit):
         self.hp = 200
         self.atk = 30
         self.armor = 15
+
+    def use_special(self):
+        self.atk += 10
+        self.armor += 5
