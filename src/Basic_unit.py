@@ -40,6 +40,9 @@ class BasicUnit:
         except:
             print("Unit has no special ability")
 
+    def print_combat_text(self):
+        pass
+
 
 '''Enemy Units'''
 
