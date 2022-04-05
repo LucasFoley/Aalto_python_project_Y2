@@ -1,9 +1,8 @@
 import random
 
 
-def positions():
-    enemy_positions = [1, 2, 3]
-    ally_positions = [1, 2, 3]
+enemy_positions = []
+ally_positions = []
 
 
 class BasicUnit:
@@ -54,7 +53,6 @@ class EnemyMinion(BasicUnit):
 class EnemyBrute(BasicUnit):
 
     def __init__(self):
-        super.__init__()
         self.hp = 100
         self.atk = 20
         self.armor = 10

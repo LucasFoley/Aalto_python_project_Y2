@@ -1,5 +1,6 @@
 import sys
 from PyQt5.QtWidgets import *
+from PyQt5.QtGui import QPixmap
 
 stylesheet = """
         MainWindow {
@@ -9,10 +10,11 @@ stylesheet = """
     """
 
 
-class MainWindow(QWidget):
+class StartWindow(QWidget):
 
     def __init__(self):
         super().__init__()
+        self.push_play_button()
 
     def push_play_button(self):
         button = QPushButton("Play", self)
@@ -20,22 +22,33 @@ class MainWindow(QWidget):
         layout = QVBoxLayout()
         layout.addWidget(button)
 
+
 class ImageWidget(QWidget):
 
     def __init__(self):
-        super().show_image()
+        super().__init__()
+        self.show_image()
 
-    #def show_image(self):
+    def show_image(self):
+        image = QPixmap("castle_1.png")
+        label = QLabel(self)
+        label.setPixmap(image)
 
+
+class StartLayout(QWidget):
+
+    def __init__(self):
+        super().__init__()
+
+    def grid_layout(self):
+        grid = QGr
 
 
 def main():
     app = QApplication(sys.argv)
-    main_widget = QWidget()
-    main_widget.setWindowTitle("Dark Dungeon")
-    main_widget.push_play_button()
-    window = MainWindow()
-    window.resize(700, 700)
+    window = ImageWidget()
+    window.setWindowTitle("Dark Dungeon")
+    window.resize(800, 800)
     window.show()
     sys.exit(app.exec_())
 
