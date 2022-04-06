@@ -1,5 +1,6 @@
 import sys
 from Basic_unit import *
+from RUN_ME import main
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 
@@ -19,16 +20,17 @@ class Window(QWidget):
         self.button1 = None
         self.button2 = None
         self.text_box = None
+        self.stats_window = None
         self.show_start_image()
-        self.click_play_button()
+        self.play_button()
 
-#   Starting window of program below
+    #   Starting window of program below
 
     def show_start_image(self):
         self.label = QLabel(self)
         self.label.setPixmap(QPixmap("start_background.png"))
 
-    def click_play_button(self):
+    def play_button(self):
         self.button = QPushButton("PLAY", self)
         self.button.setGeometry(275, 700, 250, 60)
         self.button.setFont(QFont("DejaVu Sans", 20))
@@ -40,7 +42,7 @@ class Window(QWidget):
         self.show_main_image()
         self.add_main_buttons()
 
-#   Main window of program below
+    #   Main window of program below
 
     def show_main_image(self):
         self.label.setPixmap(QPixmap("background.png"))
@@ -63,14 +65,24 @@ class Window(QWidget):
         self.layout.addWidget(self.button1)
         self.layout.addWidget(self.button2)
         self.layout.addWidget(self.text_box)
+        self.button1.show()
+        self.button2.show()
+        self.text_box.show()
 
     def stats_button_clicked(self):
-        grid = QGridLayout
-        for unit in ally_positions:
+        self.stats_window = QWidget()
+        self.stats_window.setWindowTitle("Stats")
+        self.stats_window.resize(400, 800)
+        self.stats_window.move(1360, 72)
+        self.stats_window.show()
+
+        print(main.ally_position)
+
+        """for unit in main.ally_positions:
             hp = unit.get_hp()
             atk = unit.get_atk()
-            armor = unit.get(armor)
-        print("info")
+            armor = unit.get_armor()
+            print(hp, atk, armor)"""
 
 
 def run_gui():
@@ -80,7 +92,3 @@ def run_gui():
     window.resize(800, 800)
     window.show()
     sys.exit(app.exec_())
-
-
-if __name__ == '__main__':
-    run_gui()

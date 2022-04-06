@@ -1,11 +1,10 @@
+from GUI import Window
 import random
 
 
-ally_positions = []
-enemy_positions = []
-
-
 class BasicUnit:
+
+
 
     def __init__(self):
         self.hp = 50
