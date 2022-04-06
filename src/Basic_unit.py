@@ -1,8 +1,8 @@
 import random
 
 
-enemy_positions = []
 ally_positions = []
+enemy_positions = []
 
 
 class BasicUnit:
@@ -12,6 +12,15 @@ class BasicUnit:
         self.atk = 10
         self.armor = 3
         self.status = []
+
+    def get_hp(self):
+        return self.hp
+
+    def get_atk(self):
+        return self.atk
+
+    def get_armor(self):
+        return self.armor
 
     def is_alive(self):
         if self.hp > 0:

@@ -4,70 +4,78 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 
 
-started = False
+#   GUI creates a usable Start and Main window where the user can play the game
+#   There are a few different buttons and boxes that allows the user to input combat choices and receive information
+#   about the game state and the unit stats
 
 
-class StartWindow(QWidget):
+class Window(QWidget):
 
     def __init__(self):
         super().__init__()
-        self.show_image()
-        self.push_play_button()
+        self.layout = QGridLayout()
+        self.label = None
+        self.button = None
+        self.button1 = None
+        self.button2 = None
+        self.text_box = None
+        self.show_start_image()
+        self.click_play_button()
 
-    def push_play_button(self):
-        button = QPushButton("Play", self)
-        button.setGeometry(275, 700, 250, 60)
-        button.clicked.connect(self.play_button_clicked)
-        layout = QVBoxLayout()
-        layout.addWidget(button)
+#   Starting window of program below
+
+    def show_start_image(self):
+        self.label = QLabel(self)
+        self.label.setPixmap(QPixmap("start_background.png"))
+
+    def click_play_button(self):
+        self.button = QPushButton("PLAY", self)
+        self.button.setGeometry(275, 700, 250, 60)
+        self.button.setFont(QFont("DejaVu Sans", 20))
+        self.button.clicked.connect(self.play_button_clicked)
+        self.layout.addWidget(self.button)
 
     def play_button_clicked(self):
-        main_window = MainWindow()
-        started = True
+        self.button.deleteLater()
+        self.show_main_image()
+        self.add_main_buttons()
+
+#   Main window of program below
+
+    def show_main_image(self):
+        self.label.setPixmap(QPixmap("background.png"))
+
+    def add_main_buttons(self):
+        self.button1 = QPushButton("ATTACK", self)
+        self.button1.setFont(QFont("DejaVu Sans", 25))
+        self.button1.setGeometry(25, 545, 350, 100)
+
+        self.button2 = QPushButton("STATS", self)
+        self.button2.setFont(QFont("DejaVu Sans", 25))
+        self.button2.setGeometry(425, 545, 350, 100)
+        self.button2.clicked.connect(self.stats_button_clicked)
+
+        self.text_box = QTextEdit("text here", self)
+        self.text_box.setReadOnly(True)
+        self.text_box.setGeometry(25, 660, 750, 120)
+        self.text_box.setFont(QFont("DejaVu Sans", 12))
+
+        self.layout.addWidget(self.button1)
+        self.layout.addWidget(self.button2)
+        self.layout.addWidget(self.text_box)
+
+    def stats_button_clicked(self):
+        grid = QGridLayout
+        for unit in ally_positions:
+            hp = unit.get_hp()
+            atk = unit.get_atk()
+            armor = unit.get(armor)
+        print("info")
 
 
-    def show_image(self):
-        image = QPixmap("start_background.png")
-        label = QLabel(self)
-        label.setPixmap(image)
-
-
-class MainWindow(QWidget):
-
-    def __init__(self):
-        super().__init__()
-        self.show_image()
-        self.add_buttons()
-
-    def show_image(self):
-        image = QPixmap("background.png")
-        label = QLabel(self)
-        label.setPixmap(image)
-
-    def add_buttons(self):
-        button1 = QPushButton("ATTACK", self)
-        button1.setFont(QFont("DejaVu Sans", 25))
-        button1.setGeometry(25, 545, 350, 100)
-        button2 = QPushButton("STATS", self)
-        button2.setFont(QFont("DejaVu Sans", 25))
-        button2.setGeometry(425, 545, 350, 100)
-        layout = QHBoxLayout()
-        layout.addWidget(button1)
-        layout.addWidget(button2)
-
-        text_box = QTextEdit("text here", self)
-        text_box.setGeometry(25, 660, 750, 120)
-        text_box.setFont(QFont("DejaVu Sans", 12))
-        layout.addWidget(text_box)
-
-
-
-
-
-
-def main():
+def run_gui():
     app = QApplication(sys.argv)
-    window = MainWindow()
+    window = Window()
     window.setWindowTitle("Dark Dungeon")
     window.resize(800, 800)
     window.show()
@@ -75,4 +83,4 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    run_gui()
