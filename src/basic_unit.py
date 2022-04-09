@@ -1,10 +1,7 @@
-from GUI import Window
 import random
 
 
 class BasicUnit:
-
-
 
     def __init__(self):
         self.hp = 50
@@ -67,6 +64,12 @@ class EnemyBrute(BasicUnit):
         self.hp = 100
         self.atk = 20
         self.armor = 10
+
+
+class EnemyBoss(BasicUnit):
+
+    def __init__(self):
+        pass
 
 
 '''Ally Units'''
