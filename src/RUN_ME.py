@@ -1,20 +1,13 @@
-from Basic_unit import *
+from basic_unit import *
 from GUI import *
+from posistions import *
 
 
 def main():
-    ally_positions = []
-    enemy_positions = []
 
     wizard = Wizard()
     healer = Healer()
     warrior = Warrior()
-
-    ally_positions.append(wizard)
-    ally_positions.append(healer)
-    ally_positions.append(warrior)
-
-    print(ally_positions)
 
     gui = run_gui()
     gui()

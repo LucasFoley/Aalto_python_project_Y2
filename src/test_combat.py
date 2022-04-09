@@ -1,4 +1,5 @@
-from Basic_unit import BasicUnit, Warrior, Wizard, Healer, EnemyBrute, EnemyMinion, ally_positions, enemy_positions
+from basic_unit import *
+from posistions import *
 
 wizard = Wizard()
 healer = Healer()
@@ -31,16 +32,5 @@ while wizard.hp < 150:
         wizard.hp = 150
 
 # test positions and combat
-ally_positions.append(wizard)
-ally_positions.append(healer)
-ally_positions.append(warrior)
-enemy_positions.append(minion)
-enemy_positions.append(minion2)
-enemy_positions.append(brute)
-
-while ally_positions is not None and enemy_positions is not None:
-    enemies = len(enemy_positions)
-    for ally in ally_positions:
-        ally.combat(enemy_positions()) #???????
 
 
