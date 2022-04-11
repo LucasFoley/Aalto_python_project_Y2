@@ -1,8 +1,7 @@
 from basic_unit import *
-from posistions import *
 
 wizard = Wizard()
-healer = Healer()
+healer = Shaman()
 warrior = Warrior()
 
 minion = EnemyMinion()
