@@ -24,15 +24,6 @@ class BasicUnit:
         else:
             return False
 
-    def enemies_are_alive(self):
-        for enemy in self:
-            if not enemy.is_alive():
-                self.remove(enemy)
-        if len(self) == 0:
-            return False
-        else:
-            return True
-
     def check_status(self):
         if not self.status:
             return None
@@ -57,75 +48,6 @@ class BasicUnit:
     def print_combat_text(self):
         pass
 
-
-'''Enemy Units'''
-
-
-class EnemyMinion(BasicUnit):
-
-    def __init__(self):
-        super().__init__()
-
-
-class EnemyBrute(BasicUnit):
-
-    def __init__(self):
-        self.hp = 100
-        self.atk = 20
-        self.armor = 10
-
-
-class EnemyBoss(BasicUnit):
-
-    def __init__(self):
-        pass
-
-
-'''Ally Units'''
-
-
-class Wizard(BasicUnit):
-
-    def __init__(self):
-        self.hp = 150
-        self.atk = 25
-        self.armor = 5
-
-    def stun(self):
-        number = random.randint(1, 100)
-        if number <= 50:
-            return True
-        else:
-            return False
-
-    def use_special(self, target):
-        stun = self.stun()
-        if stun:
-            target.status.append("stun")
-
-
-class Shaman(BasicUnit):
-
-    def __init__(self):
-        self.hp = 150
-        self.atk = 15
-        self.armor = 5
-
-    def use_special(self, target):
-        chance = random.randint(1, 100)
-        if chance < 33:
-            burn = self.burn()
-            if burn:
-                target.status.append("burn")
-        if 33 <=  chance < 66:
-            freeze = self.freeze()
-            if freeze:
-                target.status.append("freeze")
-        else:
-            absorb = self.absorb()
-            if absorb:
-                target.status.append("absorb")
-
     def burn(self):
         number = random.randint(1, 100)
         if number <= 50:
@@ -146,6 +68,88 @@ class Shaman(BasicUnit):
             return True
         else:
             return False
+
+    def stun(self):
+        number = random.randint(1, 100)
+        if number <= 50:
+            return True
+        else:
+            return False
+
+
+# Enemy Units
+
+
+class EnemyMinion(BasicUnit):
+
+    def __init__(self):
+        super().__init__()
+
+
+class EnemyWarlock(BasicUnit):
+
+    def __init__(self):
+        self.hp = 100
+        self.atk = 15
+        self.armor = 10
+
+    def use_special(self, target):
+        target.hp -= 15
+        self.hp += 5
+
+
+class EnemyBrute(BasicUnit):
+
+    def __init__(self):
+        self.hp = 80
+        self.atk = 15
+        self.armor = 6
+
+
+class EnemyBoss(BasicUnit):
+
+    def __init__(self):
+        pass
+
+
+# Ally Units
+
+
+class Wizard(BasicUnit):
+
+    def __init__(self):
+        self.hp = 150
+        self.atk = 25
+        self.armor = 5
+
+    def use_special(self, target):
+        stun = self.stun()
+        if stun:
+            target.status.append("stun")
+
+
+class Shaman(BasicUnit):
+
+    def __init__(self):
+        self.hp = 150
+        self.atk = 15
+        self.armor = 5
+
+    def use_special(self, target):
+        chance = random.randint(1, 100)
+        if chance < 33:
+            burn = self.burn()
+            if burn:
+                target.status.append("burn")
+        if 33 <= chance < 66:
+            freeze = self.freeze()
+            if freeze:
+                target.status.append("freeze")
+        else:
+            absorb = self.absorb()
+            if absorb:
+                target.hp -= 20
+                self.hp += 10
 
 
 class Warrior(BasicUnit):

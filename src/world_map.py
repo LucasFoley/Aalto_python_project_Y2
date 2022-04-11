@@ -14,20 +14,35 @@ self.enemy_list.append(self.enemy_minion3)
 def get_room_by_number(number):
     if number == 1:
         return room1()
-    if number == 2:
+    elif number == 2:
         return room2()
+    elif number == 3:
+        return room3()
+    elif number == 4:
+        return room4()
+    elif number == 5:
+        return room5()
 
 
 def room1():
+    enemy1 = EnemyMinion()
+    return enemy1
+
+
+def room2():
     enemy1 = EnemyMinion()
     enemy2 = EnemyMinion()
     enemy3 = EnemyMinion()
     return enemy1, enemy2, enemy3
 
 
-def room2():
+def room3():
+    enemy1 = EnemyWarlock()
+    return enemy1
+
+
+def room4():
     enemy1 = EnemyMinion()
     enemy2 = EnemyBrute()
     enemy3 = EnemyMinion()
     return enemy1, enemy2, enemy3
-

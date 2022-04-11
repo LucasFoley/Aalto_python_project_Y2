@@ -68,17 +68,17 @@ class Window(QWidget):
     def add_choose_buttons(self):
         self.wizard_button = QPushButton("Wizard", self)
         self.wizard_button.setFont(QFont("DejaVu Sans", 20))
-        self.wizard_button.setGeometry(60, 600, 200, 100)
+        self.wizard_button.setGeometry(60, 670, 200, 100)
         self.wizard_button.clicked.connect(self.wizard_clicked)
 
         self.warrior_button = QPushButton("Warrior", self)
         self.warrior_button.setFont(QFont("DejaVu Sans", 20))
-        self.warrior_button.setGeometry(300, 600, 200, 100)
+        self.warrior_button.setGeometry(300, 670, 200, 100)
         self.warrior_button.clicked.connect(self.warrior_clicked)
 
         self.shaman_button = QPushButton("Shaman", self)
         self.shaman_button.setFont(QFont("DejaVu Sans", 20))
-        self.shaman_button.setGeometry(540, 600, 200, 100)
+        self.shaman_button.setGeometry(540, 670, 200, 100)
         self.shaman_button.clicked.connect(self.shaman_clicked)
 
         self.layout.addWidget(self.wizard_button)
@@ -119,12 +119,16 @@ class Window(QWidget):
 
     def get_room(self):
         self.enemy_list.clear()
-        enemies = get_room_by_number(self.room_counter)
+        enemies = get_room_by_number(self.room_counter + 1)
         for item in enemies:
             self.enemy_list.append(item)
 
+    def move_to_next_room(self):
+        self.room_counter += 1
+
+
     def show_main_image(self):
-        self.label.setPixmap(QPixmap("background_2.png"))
+        self.label.setPixmap(QPixmap("battle_base.png"))
 
     def add_main_buttons(self):
         self.attack_button = QPushButton("ATTACK", self)
@@ -151,17 +155,24 @@ class Window(QWidget):
 
     def attack_button_clicked(self):
         if self.main_character.is_alive():
-            print("enemy hp")
             for enemy in self.enemy_list:
                 enemy.combat(self.main_character)
-                print(enemy.get_hp())
-            print("ally hp")
-            if self.enemy_list.enemies_are_alive():
+            self.enemies_are_alive()
+            if not self.enemy_list:
+                self.move_to_next_room()
+            else:
                 for enemy in self.enemy_list:
                     self.main_character.combat(enemy)
                     print(self.main_character.get_hp())
         else:
             self.end_game()
+
+    def enemies_are_alive(self):
+        for enemy in self.enemy_list:
+            if not enemy.is_alive():
+                self.enemy_list.remove(enemy)
+
+
 
     def stats_button_clicked(self):
         self.stats_window = QTableWidget(3, 2)
@@ -185,7 +196,7 @@ class Window(QWidget):
     def add_exit_button(self):
         self.exit_button = QPushButton("EXIT GAME", self)
         self.exit_button.setFont(QFont("DejaVu Sans", 25))
-        self.exit_button.setGeometry(200, 545, 400, 100)
+        self.exit_button.setGeometry(200, 450, 400, 100)
         self.exit_button.clicked.connect(self.exit_button_clicked)
         self.layout.addWidget(self.exit_button)
         self.exit_button.show()
