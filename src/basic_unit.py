@@ -24,14 +24,6 @@ class BasicUnit:
         else:
             return False
 
-    def check_status(self):
-        if not self.status:
-            return None
-        elif self.status == "stun":
-            return self.status
-        else:
-            return self.status
-
     def combat(self, attacker):
         if self.armor < attacker.atk:
             self.hp -= (attacker.atk - self.armor)
@@ -71,7 +63,7 @@ class BasicUnit:
 
     def stun(self):
         number = random.randint(1, 100)
-        if number <= 50:
+        if number <= 30:
             return True
         else:
             return False
@@ -89,6 +81,7 @@ class EnemyMinion(BasicUnit):
 class EnemyWarlock(BasicUnit):
 
     def __init__(self):
+        super().__init__()
         self.hp = 100
         self.atk = 15
         self.armor = 10
@@ -101,6 +94,7 @@ class EnemyWarlock(BasicUnit):
 class EnemyBrute(BasicUnit):
 
     def __init__(self):
+        super().__init__()
         self.hp = 80
         self.atk = 15
         self.armor = 6
@@ -109,6 +103,7 @@ class EnemyBrute(BasicUnit):
 class EnemyBoss(BasicUnit):
 
     def __init__(self):
+        super().__init__()
         pass
 
 
@@ -118,6 +113,7 @@ class EnemyBoss(BasicUnit):
 class Wizard(BasicUnit):
 
     def __init__(self):
+        super().__init__()
         self.hp = 150
         self.atk = 25
         self.armor = 5
@@ -125,12 +121,14 @@ class Wizard(BasicUnit):
     def use_special(self, target):
         stun = self.stun()
         if stun:
+            target.hp -= 40
             target.status.append("stun")
 
 
 class Shaman(BasicUnit):
 
     def __init__(self):
+        super().__init__()
         self.hp = 150
         self.atk = 15
         self.armor = 5
@@ -140,6 +138,7 @@ class Shaman(BasicUnit):
         if chance < 33:
             burn = self.burn()
             if burn:
+                target.hp -= 5
                 target.status.append("burn")
         if 33 <= chance < 66:
             freeze = self.freeze()
@@ -150,15 +149,17 @@ class Shaman(BasicUnit):
             if absorb:
                 target.hp -= 20
                 self.hp += 10
+                target.status.append("absorb")
 
 
 class Warrior(BasicUnit):
 
     def __init__(self):
-        self.hp = 200
-        self.atk = 30
+        super().__init__()
+        self.hp = 150
+        self.atk = 20
         self.armor = 10
 
-    def use_special(self):
-        self.atk += 10
+    def use_special(self, target):
+        self.atk += 5
         self.armor += 2

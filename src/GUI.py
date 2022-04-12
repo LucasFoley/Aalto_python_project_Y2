@@ -22,7 +22,7 @@ class Window(QWidget):
         self.shaman = Shaman()
         self.enemy_list = []
 
-        self.room_counter = 1
+        self.room_number = 0
 
         self.layout = QGridLayout()
         self.label = None
@@ -32,8 +32,10 @@ class Window(QWidget):
         self.warrior_button = None
         self.shaman_button = None
 
+        self.continue_button = None
+
         self.attack_button = None
-        self.stats_button = None
+        self.use_special_button = None
         self.stats_window = None
         self.text_box = None
 
@@ -50,8 +52,8 @@ class Window(QWidget):
 
     def play_button(self):
         self.play = QPushButton("PLAY", self)
-        self.play.setGeometry(275, 700, 250, 60)
         self.play.setFont(QFont("DejaVu Sans", 20))
+        self.play.setGeometry(275, 700, 250, 60)
         self.play.clicked.connect(self.play_button_clicked)
         self.layout.addWidget(self.play)
 
@@ -93,77 +95,130 @@ class Window(QWidget):
         self.wizard_button.deleteLater()
         self.warrior_button.deleteLater()
         self.shaman_button.deleteLater()
-        self.get_room()
-        self.show_main_image()
-        self.add_main_buttons()
+        self.move_to_next_room()
 
     def warrior_clicked(self):
         self.main_character = self.warrior
         self.wizard_button.deleteLater()
         self.warrior_button.deleteLater()
         self.shaman_button.deleteLater()
-        self.get_room()
-        self.show_main_image()
-        self.add_main_buttons()
+        self.move_to_next_room()
 
     def shaman_clicked(self):
         self.main_character = self.shaman
         self.wizard_button.deleteLater()
         self.warrior_button.deleteLater()
         self.shaman_button.deleteLater()
-        self.get_room()
-        self.show_main_image()
-        self.add_main_buttons()
+        self.move_to_next_room()
 
-    #   Main window of program below
+    #   Main window and combat window of program below
 
     def get_room(self):
         self.enemy_list.clear()
-        enemies = get_room_by_number(self.room_counter + 1)
-        for item in enemies:
-            self.enemy_list.append(item)
+        enemies = get_enemies_by_room_number(self.room_number)
+        if type(enemies) == tuple:
+            for item in enemies:
+                self.enemy_list.append(item)
+        else:
+            self.enemy_list.append(enemies)
 
     def move_to_next_room(self):
-        self.room_counter += 1
+        self.show_continue_image()
+        self.add_continue_button()
+        self.add_text_box()
+        story_text = get_text_by_room_number(self.room_number)
+        self.text_box.append(story_text)
+        self.room_number += 1
 
+    # Window for inbetween fights
 
-    def show_main_image(self):
+    def show_continue_image(self):
+        self.label.setPixmap(QPixmap("base_background.png"))
+
+    def add_continue_button(self):
+        self.continue_button = QPushButton("CONTINUE", self)
+        self.continue_button.setFont(QFont("DejaVu Sans", 25))
+        self.continue_button.setGeometry(25, 540, 750, 100)
+        self.continue_button.clicked.connect(self.continue_button_clicked)
+        self.layout.addWidget(self.continue_button)
+        self.continue_button.show()
+
+    def continue_button_clicked(self):
+        try:
+            self.text_box.deleteLater()
+        except:
+            pass
+        self.continue_button.deleteLater()
+        self.get_room()
+        self.show_combat_image()
+        self.add_combat_buttons()
+        self.add_text_box()
+
+    # Combat window below
+
+    def show_combat_image(self):
         self.label.setPixmap(QPixmap("battle_base.png"))
 
-    def add_main_buttons(self):
+    def add_text_box(self):
+        self.text_box = QTextEdit("", self)
+        self.text_box.setFont(QFont("DejaVu Sans", 12))
+        self.text_box.setGeometry(25, 660, 750, 120)
+        self.text_box.setReadOnly(True)
+
+        self.layout.addWidget(self.text_box)
+        self.text_box.show()
+
+    def add_combat_buttons(self):
         self.attack_button = QPushButton("ATTACK", self)
         self.attack_button.setFont(QFont("DejaVu Sans", 25))
-        self.attack_button.setGeometry(25, 545, 350, 100)
+        self.attack_button.setGeometry(25, 540, 360, 100)
         self.attack_button.clicked.connect(self.attack_button_clicked)
 
-        self.stats_button = QPushButton("STATS", self)
-        self.stats_button.setFont(QFont("DejaVu Sans", 25))
-        self.stats_button.setGeometry(425, 545, 350, 100)
-        self.stats_button.clicked.connect(self.stats_button_clicked)
-
-        self.text_box = QTextEdit("text here", self)
-        self.text_box.setReadOnly(True)
-        self.text_box.setGeometry(25, 660, 750, 120)
-        self.text_box.setFont(QFont("DejaVu Sans", 12))
+        self.use_special_button = QPushButton("USE SPECIAL", self)
+        self.use_special_button.setFont(QFont("DejaVu Sans", 25))
+        self.use_special_button.setGeometry(415, 540, 360, 100)
+        self.use_special_button.clicked.connect(self.use_special_button_clicked)
 
         self.layout.addWidget(self.attack_button)
-        self.layout.addWidget(self.stats_button)
-        self.layout.addWidget(self.text_box)
+        self.layout.addWidget(self.use_special_button)
         self.attack_button.show()
-        self.stats_button.show()
-        self.text_box.show()
+        self.use_special_button.show()
+
+    # Actual combat below
 
     def attack_button_clicked(self):
         if self.main_character.is_alive():
             for enemy in self.enemy_list:
                 enemy.combat(self.main_character)
+                self.text_box.append(str(enemy.hp))
             self.enemies_are_alive()
             if not self.enemy_list:
                 self.move_to_next_room()
+                self.attack_button.deleteLater()
+                self.use_special_button.deleteLater()
+                self.text_box.deleteLater()
             else:
                 for enemy in self.enemy_list:
                     self.main_character.combat(enemy)
-                    print(self.main_character.get_hp())
+                    print("ally hp", self.main_character.get_hp())
+        else:
+            self.end_game()
+
+    def use_special_button_clicked(self):
+        if self.main_character.is_alive():
+            for enemy in self.enemy_list:
+                self.main_character.use_special(enemy)
+                print("status", enemy.status)
+            self.enemies_are_alive()
+            if not self.enemy_list:
+                self.move_to_next_room()
+                self.attack_button.deleteLater()
+                self.use_special_button.deleteLater()
+                self.text_box.deleteLater()
+            else:
+                for enemy in self.enemy_list:
+                    self.main_character.combat(enemy)
+                    print("ally hp", self.main_character.get_hp())
         else:
             self.end_game()
 
@@ -171,8 +226,6 @@ class Window(QWidget):
         for enemy in self.enemy_list:
             if not enemy.is_alive():
                 self.enemy_list.remove(enemy)
-
-
 
     def stats_button_clicked(self):
         self.stats_window = QTableWidget(3, 2)
@@ -185,18 +238,19 @@ class Window(QWidget):
 
     def end_game(self):
         self.attack_button.deleteLater()
-        self.stats_button.deleteLater()
+        self.use_special_button.deleteLater()
+        self.text_box.deleteLater()
         self.text_box.deleteLater()
         self.show_end_image()
         self.add_exit_button()
 
     def show_end_image(self):
-        self.label.setPixmap(QPixmap("character_select.png"))
+        self.label.setPixmap(QPixmap("end_background.png"))
 
     def add_exit_button(self):
         self.exit_button = QPushButton("EXIT GAME", self)
         self.exit_button.setFont(QFont("DejaVu Sans", 25))
-        self.exit_button.setGeometry(200, 450, 400, 100)
+        self.exit_button.setGeometry(200, 650, 400, 100)
         self.exit_button.clicked.connect(self.exit_button_clicked)
         self.layout.addWidget(self.exit_button)
         self.exit_button.show()
