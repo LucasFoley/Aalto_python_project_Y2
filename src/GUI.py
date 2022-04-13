@@ -1,5 +1,5 @@
-from RUN_ME import *
 from basic_unit import BasicUnit, Wizard, Warrior, Shaman, EnemyMinion, EnemyBrute, EnemyBoss
+from enemy_combat_AI import enemy_combat
 from world_map import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
@@ -116,7 +116,9 @@ class Window(QWidget):
     def get_room(self):
         self.enemy_list.clear()
         enemies = get_enemies_by_room_number(self.room_number)
-        if type(enemies) == tuple:
+        if enemies is None:
+            self.end_game()
+        elif type(enemies) is tuple:
             for item in enemies:
                 self.enemy_list.append(item)
         else:
@@ -150,9 +152,12 @@ class Window(QWidget):
             pass
         self.continue_button.deleteLater()
         self.get_room()
-        self.show_combat_image()
-        self.add_combat_buttons()
-        self.add_text_box()
+        if self.enemy_list:
+            self.show_combat_image()
+            self.add_combat_buttons()
+            self.add_text_box()
+        else:
+            self.end_game()
 
     # Combat window below
 
@@ -188,19 +193,24 @@ class Window(QWidget):
 
     def attack_button_clicked(self):
         if self.main_character.is_alive():
+            self.text_box.clear()
+            enemy_combat(self.enemy_list)
             for enemy in self.enemy_list:
                 enemy.combat(self.main_character)
-                self.text_box.append(str(enemy.hp))
+                if enemy.is_alive():
+                    self.text_box.append("Enemy HP: " + str(enemy.get_hp()))
+                else:
+                    self.text_box.append("Enemy is DEAD")
             self.enemies_are_alive()
             if not self.enemy_list:
-                self.move_to_next_room()
                 self.attack_button.deleteLater()
                 self.use_special_button.deleteLater()
-                self.text_box.deleteLater()
+                self.text_box.clear()
+                self.move_to_next_room()
             else:
                 for enemy in self.enemy_list:
                     self.main_character.combat(enemy)
-                    print("ally hp", self.main_character.get_hp())
+                self.text_box.append("Ally HP: " + str(self.main_character.get_hp()))
         else:
             self.end_game()
 
@@ -208,24 +218,33 @@ class Window(QWidget):
         if self.main_character.is_alive():
             for enemy in self.enemy_list:
                 self.main_character.use_special(enemy)
-                print("status", enemy.status)
+                self.text_box.append(str(enemy.get_status()) + " status applied")
             self.enemies_are_alive()
             if not self.enemy_list:
-                self.move_to_next_room()
                 self.attack_button.deleteLater()
                 self.use_special_button.deleteLater()
-                self.text_box.deleteLater()
+                self.text_box.clear()
+                self.move_to_next_room()
             else:
                 for enemy in self.enemy_list:
                     self.main_character.combat(enemy)
-                    print("ally hp", self.main_character.get_hp())
+                if self.main_character.is_alive():
+                    self.text_box.append("Ally HP: " + str(self.main_character.get_hp()))
+                else:
+                    self.text_box.append("You DIED")
         else:
             self.end_game()
 
-    def enemies_are_alive(self):
+    def enemies_are_alive(self):    # NEEDS FIXES. DOESN'T CHECK FOR LAST ITEM IN LIST
+        # print("BEFORE handling", self.enemy_list)
         for enemy in self.enemy_list:
             if not enemy.is_alive():
                 self.enemy_list.remove(enemy)
+            # print("INSIDE", self.enemy_list, "\n Alive status", enemy.is_alive())
+        # print("AFTER for loop", self.enemy_list, "\n")
+
+    def is_combat_over(self):   # for shortening/cleaning up combat method code
+        pass
 
     def stats_button_clicked(self):
         self.stats_window = QTableWidget(3, 2)
@@ -237,12 +256,16 @@ class Window(QWidget):
     #   Game ending part below
 
     def end_game(self):
-        self.attack_button.deleteLater()
-        self.use_special_button.deleteLater()
-        self.text_box.deleteLater()
-        self.text_box.deleteLater()
-        self.show_end_image()
-        self.add_exit_button()
+        try:
+            self.attack_button.deleteLater()
+            self.use_special_button.deleteLater()
+            self.text_box.clear()
+            self.show_end_image()
+            self.add_exit_button()
+        except RuntimeError:
+            self.continue_button.deleteLater()
+            self.show_end_image()
+            self.add_exit_button()
 
     def show_end_image(self):
         self.label.setPixmap(QPixmap("end_background.png"))
@@ -250,7 +273,7 @@ class Window(QWidget):
     def add_exit_button(self):
         self.exit_button = QPushButton("EXIT GAME", self)
         self.exit_button.setFont(QFont("DejaVu Sans", 25))
-        self.exit_button.setGeometry(200, 650, 400, 100)
+        self.exit_button.setGeometry(200, 550, 400, 100)
         self.exit_button.clicked.connect(self.exit_button_clicked)
         self.layout.addWidget(self.exit_button)
         self.exit_button.show()
@@ -263,6 +286,6 @@ def run_gui():
     app = QApplication(sys.argv)
     window = Window()
     window.setWindowTitle("Dark Dungeon")
-    window.resize(800, 800)
+    window.setFixedSize(800, 800)
     window.show()
     sys.exit(app.exec_())

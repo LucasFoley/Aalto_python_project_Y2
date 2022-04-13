@@ -4,6 +4,7 @@ import random
 class BasicUnit:
 
     def __init__(self):
+        self.name = "EnemyMinion"
         self.hp = 50
         self.atk = 10
         self.armor = 3
@@ -17,6 +18,9 @@ class BasicUnit:
 
     def get_armor(self):
         return self.armor
+
+    def get_status(self):
+        return self.status
 
     def is_alive(self):
         if self.hp > 0:
@@ -82,6 +86,7 @@ class EnemyWarlock(BasicUnit):
 
     def __init__(self):
         super().__init__()
+        self.name = "EnemyWarlock"
         self.hp = 100
         self.atk = 15
         self.armor = 10
@@ -95,6 +100,7 @@ class EnemyBrute(BasicUnit):
 
     def __init__(self):
         super().__init__()
+        self.name = "EnemyBrute"
         self.hp = 80
         self.atk = 15
         self.armor = 6
@@ -104,7 +110,10 @@ class EnemyBoss(BasicUnit):
 
     def __init__(self):
         super().__init__()
-        pass
+        self.name = "EnemyBoss"
+        self.hp = 200
+        self.atk = 20
+        self.armor = 10
 
 
 # Ally Units
@@ -114,6 +123,7 @@ class Wizard(BasicUnit):
 
     def __init__(self):
         super().__init__()
+        self.name = "Wizard"
         self.hp = 150
         self.atk = 25
         self.armor = 5
@@ -129,6 +139,7 @@ class Shaman(BasicUnit):
 
     def __init__(self):
         super().__init__()
+        self.name = "Shaman"
         self.hp = 150
         self.atk = 15
         self.armor = 5
@@ -156,6 +167,7 @@ class Warrior(BasicUnit):
 
     def __init__(self):
         super().__init__()
+        self.name = "Warrior"
         self.hp = 150
         self.atk = 20
         self.armor = 10

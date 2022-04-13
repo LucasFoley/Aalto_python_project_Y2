@@ -22,19 +22,21 @@ def get_enemies_by_room_number(number):
         return room3()
     elif number == 4:
         return room4()
+    else:
+        return end_room()
 
 
 def get_text_by_room_number(number):
     if number == 0:
-        return room0_text()
+        return start_text()
     elif number == 1:
-        return room1_text()
-    elif number == 2:
         return room2_text()
-    elif number == 3:
+    elif number == 2:
         return room3_text()
-    elif number == 4:
+    elif number == 3:
         return room4_text()
+    else:
+        return end_text()
 
 
 def room0():
@@ -68,28 +70,33 @@ def room4():
     return enemy1, enemy2, enemy3
 
 
-def room0_text():
+def end_room():
+    return None
+
+
+def start_text():
     text = "By some great misfortune you have stumbled into this old and long forgotten place. " \
            "You hear a quite but but disturbing sound from the room up ahead.\n\n" \
            "PRESS  Continue to proceed and find out what is making that horrid sound."
     return text
 
 
-def room1_text():
+def room2_text():
     text = "You have made it past your first trial!"
     return text
 
 
-def room2_text():
-    text = "You have made"
-    return text
-
-
 def room3_text():
-    text = "You have made"
+    text = "You have made it past your second trial!"
     return text
 
 
 def room4_text():
-    text = "You have made"
+    text = "You have made it past your third trial!"
     return text
+
+
+def end_text():
+    text = "You have made it past your final trial!"
+    return text
+
