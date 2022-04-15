@@ -35,7 +35,7 @@ class BasicUnit:
             self.hp -= 1
         return self.is_alive()
 
-    def special_ability(self, target):
+    def use_special(self, target):
         try:
             self.use_special(target)
         except:
@@ -151,7 +151,7 @@ class Shaman(BasicUnit):
             if burn:
                 target.hp -= 5
                 target.status.append("burn")
-        if 33 <= chance < 66:
+        elif 33 <= chance < 66:
             freeze = self.freeze()
             if freeze:
                 target.status.append("freeze")
