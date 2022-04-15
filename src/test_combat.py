@@ -24,7 +24,7 @@ while not brute.status:
     print(brute.get_status())
 
 
-while not aminion.status:
+while not minion.status:
     wizard.use_special(minion)
     print(minion.get_status())
 
