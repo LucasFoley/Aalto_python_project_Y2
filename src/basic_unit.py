@@ -35,12 +35,6 @@ class BasicUnit:
             self.hp -= 1
         return self.is_alive()
 
-    def use_special(self, target):
-        try:
-            self.use_special(target)
-        except:
-            print("Unit has no special ability")
-
     def print_combat_text(self):
         pass
 
@@ -82,6 +76,16 @@ class EnemyMinion(BasicUnit):
         super().__init__()
 
 
+class EnemySlime(BasicUnit):
+
+    def __init__(self):
+        super().__init__()
+        self.name = "EnemySlime"
+        self.hp = 25
+        self.atk = 15
+        self.armor = 10
+
+
 class EnemyWarlock(BasicUnit):
 
     def __init__(self):
@@ -114,6 +118,16 @@ class EnemyBoss(BasicUnit):
         self.hp = 200
         self.atk = 20
         self.armor = 10
+
+    def use_special(self, target):
+        armor_shred = 2
+        if target.armor > 0:
+            if target.armor == 1:
+                target.armor = 2
+            target.armor -= armor_shred
+            self.hp += 10
+        else:
+            self.hp += 10
 
 
 # Ally Units
