@@ -20,7 +20,14 @@ class BasicUnit:
         return self.armor
 
     def get_status(self):
-        return self.status
+        status_str = ""
+        for status in self.status:
+            string = str(status)
+            status_str += string
+        if status_str == "":
+            return "No "
+        else:
+            return status_str
 
     def is_alive(self):
         if self.hp > 0:
@@ -145,8 +152,9 @@ class Wizard(BasicUnit):
     def use_special(self, target):
         stun = self.stun()
         if stun:
-            target.hp -= 40
-            target.status.append("stun")
+            if "Stun, " not in target.status:
+                target.hp -= 40
+                target.status.append("Stun, ")
 
 
 class Shaman(BasicUnit):
@@ -163,18 +171,21 @@ class Shaman(BasicUnit):
         if chance < 33:
             burn = self.burn()
             if burn:
-                target.hp -= 5
-                target.status.append("burn")
+                if "Burn, " not in target.status:
+                    target.hp -= 20
+                    target.status.append("Burn, ")
         elif 33 <= chance < 66:
             freeze = self.freeze()
             if freeze:
-                target.status.append("freeze")
+                if "Freeze, " not in target.status:
+                    target.status.append("Freeze, ")
         else:
             absorb = self.absorb()
             if absorb:
-                target.hp -= 20
-                self.hp += 10
-                target.status.append("absorb")
+                if "Absorb, " not in target.status:
+                    target.hp -= 20
+                    self.hp += 10
+                    target.status.append("Absorb, ")
 
 
 class Warrior(BasicUnit):

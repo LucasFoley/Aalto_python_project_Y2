@@ -48,7 +48,7 @@ class Window(QWidget):
 
     def show_start_image(self):
         self.label = QLabel(self)
-        self.label.setPixmap(QPixmap("start_background.png"))
+        self.label.setPixmap(QPixmap("game_img/start_background.png"))
 
     def play_button(self):
         self.play = QPushButton("PLAY", self)
@@ -65,7 +65,7 @@ class Window(QWidget):
     #   Choose character window
 
     def show_character_selection_image(self):
-        self.label.setPixmap(QPixmap("character_select.png"))
+        self.label.setPixmap(QPixmap("game_img/character_select.png"))
 
     def add_choose_buttons(self):
         self.wizard_button = QPushButton("Wizard", self)
@@ -131,12 +131,11 @@ class Window(QWidget):
         story_text = get_text_by_room_number(self.room_number)
         self.text_box.append(story_text)
         self.room_number += 1
-        print(self.room_number)
 
     # Window for inbetween fights
 
     def show_continue_image(self):
-        self.label.setPixmap(QPixmap("base_background.png"))
+        self.label.setPixmap(QPixmap("game_img/base_background.png"))
 
     def add_continue_button(self):
         self.continue_button = QPushButton("CONTINUE", self)
@@ -163,7 +162,7 @@ class Window(QWidget):
     # Combat window below
 
     def show_combat_image(self):
-        self.label.setPixmap(QPixmap("battle_base.png"))
+        self.label.setPixmap(QPixmap("game_img/battle_base.png"))
 
     def add_text_box(self):
         self.text_box = QTextEdit("", self)
@@ -220,7 +219,7 @@ class Window(QWidget):
         if self.main_character.is_alive():
             for enemy in self.enemy_list:
                 self.main_character.use_special(enemy)
-                self.text_box.append(str(enemy.get_status()) + " status applied")
+                self.text_box.append(str(enemy.get_status()) + "status applied")
             self.enemies_are_alive()
             if not self.enemy_list:
                 self.attack_button.deleteLater()
@@ -253,23 +252,26 @@ class Window(QWidget):
         try:
             self.attack_button.deleteLater()
             self.use_special_button.deleteLater()
-            self.text_box.clear()
-            end_message = ("Dark Dungeon\n"
-                           "Made by Lucas Foley\n"
-                           "Version 1.0\n")
-            self.text_box(end_message)
+            self.text_box.append(("\n"
+                                  "Dark Dungeon\n"
+                                  "Version 1.0\n"
+                                  "\n"
+                                  "Made by Lucas Foley"))
             self.show_end_image()
             self.add_exit_button()
         except RuntimeError:
             self.continue_button.deleteLater()
             self.show_end_image()
-            self.text_box("Dark Dungeon\n"
-                          "Made by Lucas Foley\n"
-                          "Version 1.0\n")
+            self.text_box.clear()
+            self.text_box.append(("\n"
+                                  "Dark Dungeon\n"
+                                  "Version 1.0\n"
+                                  "\n"
+                                  "Made by Lucas Foley"))
             self.add_exit_button()
 
     def show_end_image(self):
-        self.label.setPixmap(QPixmap("end_background.png"))
+        self.label.setPixmap(QPixmap("game_img/end_background.png"))
 
     def add_exit_button(self):
         self.exit_button = QPushButton("EXIT GAME", self)
