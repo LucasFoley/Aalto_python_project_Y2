@@ -25,7 +25,7 @@ class BasicUnit:
             string = str(status)
             status_str += string
         if status_str == "":
-            return "No "
+            return "No status "
         else:
             return status_str
 

@@ -39,10 +39,16 @@ def enemy_brute(brute, main_character):
 
 
 def enemy_boss(boss, main_character):
-    if main_character.armor > 0:
-        boss.use_special
+    if check_status(boss, main_character):
+        if main_character.armor > 0:
+            boss.use_special()
+        else:
+            main_character.combat(boss)
     else:
-        main_character.combat(boss)
+        if main_character.armor > 0:
+            boss.use_special()
+        else:
+            main_character.combat(boss)
 
 
 def check_status(enemy, main_character):

@@ -217,9 +217,13 @@ class Window(QWidget):
 
     def use_special_button_clicked(self):
         if self.main_character.is_alive():
+            self.text_box.clear()
             for enemy in self.enemy_list:
                 self.main_character.use_special(enemy)
-                self.text_box.append(str(enemy.get_status()) + "status applied")
+                if enemy.is_alive():
+                    self.text_box.append(str(enemy.get_status()) + " applied.   Enemy HP:" + str(enemy.get_hp()))
+                else:
+                    self.text_box.append("Enemy is DEAD")
             self.enemies_are_alive()
             if not self.enemy_list:
                 self.attack_button.deleteLater()
