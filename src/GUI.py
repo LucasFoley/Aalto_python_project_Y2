@@ -170,7 +170,9 @@ class Window(QWidget):
         else:
             self.end_game()
 
-    """ This part of the main part handles the combat window and the actual combat.
+    """ This part of the main part handles the combat window and the combat. The combat calculations and specifics are 
+        handled in the basic_unit.py file and enemy_combat_AI.py but are ordered and combined into a working combat 
+        system here in the main part.  
         
         First the combat related buttons, dialog box, and images are shown"""
 
@@ -203,7 +205,12 @@ class Window(QWidget):
         self.attack_button.show()
         self.use_special_button.show()
 
-    """ This is"""
+    """ This part handles the combat if the normal direct attack button is clicked.
+    
+        The player always starts attacking first and attacks every enemy in the enemy list. Relevant combat information
+        is added to the dialog box each turn. The program checks that the player and the enemies are alive before each
+        turn. If the enemies are dead it will move on to the next room and if the player dies it will take the player
+        to the end window."""
 
     def attack_button_clicked(self):
         if self.main_character.is_alive():
@@ -228,6 +235,11 @@ class Window(QWidget):
                     self.text_box.append("You DIED")
         else:
             self.end_game()
+
+    """ The use special attack section is similar to the attack section of the program. The main difference is that it
+        must handle each of the separate playable characters differently and output only relevant combat information
+        regarding their special ability. It functions almost identically to the attack section but just sorts out
+        which information to output based on the main character that the player has selected."""
 
     def use_special_button_clicked(self):
         if self.main_character.is_alive():
@@ -274,7 +286,11 @@ class Window(QWidget):
             if not enemy.is_alive():
                 self.enemy_list.remove(enemy)
 
-    #   Game ending part below
+    """ Lastly the game ending section which the player will be brought to depending on if they died or if they managed
+        to beat the game.
+        
+        The try, except is used to allow both the winning route and the dying route to take the player to the end 
+        window."""
 
     def end_game(self):
         try:

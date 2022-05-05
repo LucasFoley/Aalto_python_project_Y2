@@ -76,33 +76,34 @@ def get_text_by_room_number(number):
 def start_text():
     text = "By some great misfortune you have stumbled into this old and long forgotten place. " \
            "You hear a quite but disturbing sound from the room up ahead.\n\n" \
-           "PRESS  Continue to proceed and find out what is making that horrid sound."
+           "PRESS  Continue to proceed and find out what is making that horrible sound."
     return text
 
 
 def room2_text():
     text = "You have made it past your first trial! You can hear evil laughs and see a weird green shining " \
-           "light up ahead. A life stealing warlock awaits for you in the next room.\n" \
+           "light up ahead. A life stealing warlock awaits you in the next room.\n\n" \
             "PRESS  Continue to proceed to the next room."
     return text
 
 
 def room3_text():
-    text = "You have made it past your second trial! There are more enemies up ahead and they look stronger.\n\n" \
+    text = "You have made it past your second trial! There are more enemies up ahead and it looks like one of them is " \
+           "stronger than the rest of them.\n\n" \
            "PRESS  Continue to proceed to the next room."
     return text
 
 
 def room4_text():
-    text = "You have made it past your third trial! As you approach the next room you notice some creatures made" \
+    text = "You have made it past your third trial! As you approach the next room you notice some creatures made " \
            "out of slime. Beware they reduce your armor with each attack.\n" \
            "PRESS  Continue to proceed to the next room."
     return text
 
 
 def room5_text():
-    text = "You have made it past your forth trial! You are almost there traveller. The next fight isn't going to be " \
-           "easy as it is the Final Boss!\n\n" \
+    text = "You have made it past your forth trial! You are almost there traveller but the next fight isn't going to " \
+           "be easy as it is the Final Boss and it is immune to stuns and freezes!\n\n" \
            "PRESS  Continue to proceed to the next room."
     return text
 

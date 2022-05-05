@@ -1,5 +1,7 @@
 from basic_unit import *
 
+""" Using print and terminal to test very basics of the program"""
+
 wizard = Wizard()
 shaman = Shaman()
 warrior = Warrior()
