@@ -19,6 +19,7 @@
 -	3 playable characters with unique special abilities
 -	Enemy units witch varying strategies and abilities
 -	Customized battle images for each set of enemies
+
 ##Manual
 - Open RUN_ME.py from the scr folder and run it to open the game
 - Press the play button to start the game
