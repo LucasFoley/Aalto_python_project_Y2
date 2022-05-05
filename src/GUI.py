@@ -4,13 +4,15 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 import sys
 
-
 """ This is the main file for the entire game. Since the game is heavily dependent on graphical input all most 
     everything is handled in this file.    
     
     GUI creates a usable Start and Main window where the user can play the game. There are a few different buttons 
     and boxes that allows the user to input combat choices and receive information regarding the game state and the 
-    units conditions and stats"""
+    units conditions and stats
+    
+    The first part of the program creates the main window class and widget from which the user can interact with the 
+    game. All initial characters, buttons, and variables are created so that they can be used later on in the program"""
 
 
 class Window(QWidget):
@@ -46,7 +48,9 @@ class Window(QWidget):
         self.show_start_image()
         self.play_button()
 
-    #   Starting window of program below
+    """ This part of the file handles the starting window of program. 
+        
+        It creates a play button and adds the background image. """
 
     def show_start_image(self):
         self.label = QLabel(self)
@@ -64,7 +68,9 @@ class Window(QWidget):
         self.show_character_selection_image()
         self.add_choose_buttons()
 
-    #   Choose character window
+    """ This part of the file handles the character selection.
+        
+        It changes the background and add a button for each of the playable characters."""
 
     def show_character_selection_image(self):
         self.label.setPixmap(QPixmap("game_img/character_select.png"))
@@ -113,7 +119,14 @@ class Window(QWidget):
         self.shaman_button.deleteLater()
         self.move_to_next_room()
 
-    #   Main window and combat window of program below
+    """ Here is now the main part of the program.
+        
+        To put it simply the program switches between a combat room and a story/narrator room. There is room counter
+        that will keep track of which room the player is in and load all the appropriate buttons, dialogs, and
+        enemies.
+        
+        Here below are the two function that handle the switching of rooms. They will get the next room and enemies 
+        until there are no more, in which case they will send the player to the end screen."""
 
     def get_room(self):
         self.enemy_list.clear()
@@ -134,7 +147,7 @@ class Window(QWidget):
         self.text_box.append(story_text)
         self.room_number += 1
 
-    # Window for inbetween fights
+    """ This part of the main part changes to the inbetween fights window"""
 
     def show_continue_image(self):
         self.label.setPixmap(QPixmap("game_img/base_background.png"))
@@ -157,7 +170,9 @@ class Window(QWidget):
         else:
             self.end_game()
 
-    # Combat window below
+    """ This part of the main part handles the combat window and the actual combat.
+        
+        First the combat related buttons, dialog box, and images are shown"""
 
     def show_combat_image(self):
         image = get_img_by_room(self.room_number)
@@ -188,7 +203,7 @@ class Window(QWidget):
         self.attack_button.show()
         self.use_special_button.show()
 
-    # Actual combat below
+    """ This is"""
 
     def attack_button_clicked(self):
         if self.main_character.is_alive():
@@ -258,9 +273,6 @@ class Window(QWidget):
         for enemy in self.enemy_list:
             if not enemy.is_alive():
                 self.enemy_list.remove(enemy)
-
-    def enemy_attack_info(self):
-        pass
 
     #   Game ending part below
 
