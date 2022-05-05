@@ -1,5 +1,9 @@
 import random
 
+""" This file handles all basic units and interactions between their resources
+    Combat and special abilities are handled and calculated on the playable characters side
+    Each unit is a subclass of the BasicUnit class and they have adjusted and individual stats and abilities"""
+
 
 class BasicUnit:
 
@@ -25,7 +29,7 @@ class BasicUnit:
             string = str(status)
             status_str += string
         if status_str == "":
-            return "No status "
+            return "No status"
         else:
             return status_str
 
@@ -41,9 +45,6 @@ class BasicUnit:
         else:
             self.hp -= 1
         return self.is_alive()
-
-    def print_combat_text(self):
-        pass
 
     def burn(self):
         number = random.randint(1, 100)
@@ -66,15 +67,30 @@ class BasicUnit:
         else:
             return False
 
+    def giga_absorb(self):
+        number = random.randint(1, 100)
+        if number <= 15:
+            return True
+        else:
+            return False
+
     def stun(self):
         number = random.randint(1, 100)
-        if number <= 30:
+        if number <= 50:
+            return True
+        else:
+            return False
+
+    def stun_death(self):
+        number = random.randint(1, 100)
+        if number <= 20:
             return True
         else:
             return False
 
 
-# Enemy Units
+""" Enemy Units are handled in this part of the program
+    Only the bosses special ability is handled in this file inorder to keep the enemy_combat_AI file cleaner"""
 
 
 class EnemyMinion(BasicUnit):
@@ -101,10 +117,6 @@ class EnemyWarlock(BasicUnit):
         self.hp = 100
         self.atk = 15
         self.armor = 10
-
-    def use_special(self, target):
-        target.hp -= 15
-        self.hp += 5
 
 
 class EnemyBrute(BasicUnit):
@@ -137,7 +149,7 @@ class EnemyBoss(BasicUnit):
             self.hp += 10
 
 
-# Ally Units
+""" All playable units and their abilities are in this part of the file"""
 
 
 class Wizard(BasicUnit):
@@ -151,10 +163,16 @@ class Wizard(BasicUnit):
 
     def use_special(self, target):
         stun = self.stun()
+        stun_death = self.stun_death()
         if stun:
             if "Stun, " not in target.status:
                 target.hp -= 40
                 target.status.append("Stun, ")
+            else:
+                if stun_death:
+                    target.hp -= 999
+                else:
+                    target.hp -= 20
 
 
 class Shaman(BasicUnit):
@@ -181,10 +199,14 @@ class Shaman(BasicUnit):
                     target.status.append("Freeze, ")
         else:
             absorb = self.absorb()
+            giga_absorb = self.giga_absorb()
             if absorb:
                 if "Absorb, " not in target.status:
+                    if giga_absorb:
+                        self.hp += 40
+                        target.hp -= 40
                     target.hp -= 20
-                    self.hp += 10
+                    self.hp += 20
                     target.status.append("Absorb, ")
 
 
@@ -198,5 +220,10 @@ class Warrior(BasicUnit):
         self.armor = 10
 
     def use_special(self, target):
-        self.atk += 5
-        self.armor += 2
+        if self.atk < 40:
+            self.atk += 3
+            if self.atk > 40:
+                self.atk = 40
+            self.armor += 2
+        else:
+            self.atk = 40

@@ -1,4 +1,8 @@
-from basic_unit import *
+""" This file handles all enemy combat and strategies
+
+    It takes in a list of enemies for each room and separates them into the correct corresponding
+    combat strategy based on the name of the enemy. Then it performs the combat functions and
+    applies the damage and/or status effects to the players character"""
 
 
 def enemy_combat(enemy_list, main_character):
@@ -22,15 +26,16 @@ def enemy_minion(minion, main_character):
 
 def enemy_slime(slime, main_character):
     if check_status(slime, main_character):
-        main_character.hp -= slime.hp
-        slime.hp = 0
+        main_character.hp -= 5
+        if main_character.atk > 5:
+            main_character.atk -= 2
+            main_character.atk = 5
 
 
 def enemy_warlock(warlock, main_character):
     if check_status(warlock, main_character):
-        life_steal = (15 - main_character.armor)
-        main_character.hp -= life_steal
-        warlock.hp += life_steal
+        main_character.hp -= 10
+        warlock.hp += 10
 
 
 def enemy_brute(brute, main_character):
@@ -39,16 +44,13 @@ def enemy_brute(brute, main_character):
 
 
 def enemy_boss(boss, main_character):
-    if check_status(boss, main_character):
-        if main_character.armor > 0:
-            boss.use_special()
-        else:
-            main_character.combat(boss)
-    else:
-        if main_character.armor > 0:
-            boss.use_special()
-        else:
-            main_character.combat(boss)
+    check_status(boss, main_character)
+    boss.use_special(main_character)
+    main_character.combat(boss)
+
+
+""" This part checks what statuses have been applied to the enemy so it can decide what should happen or
+    shouldn't happen in the cases where the enemy is stunned or frozen"""
 
 
 def check_status(enemy, main_character):
@@ -67,6 +69,4 @@ def check_status(enemy, main_character):
                 return 1
     else:
         return 1
-
-
 

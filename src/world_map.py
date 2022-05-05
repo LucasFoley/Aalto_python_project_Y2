@@ -1,10 +1,12 @@
 from basic_unit import *
 
+""" This file stores all information for each room in the game
+    
+    The First part will create and return the enemies for the specific room"""
+
 
 def get_enemies_by_room_number(number):
-    if number == 0:
-        return room0()
-    elif number == 1:
+    if number == 1:
         return room1()
     elif number == 2:
         return room2()
@@ -16,26 +18,6 @@ def get_enemies_by_room_number(number):
         return room5()
     else:
         return end_room()
-
-
-def get_text_by_room_number(number):
-    if number == 0:
-        return start_text()
-    elif number == 1:
-        return room2_text()
-    elif number == 2:
-        return room3_text()
-    elif number == 3:
-        return room4_text()
-    elif number == 4:
-        return room5_text()
-    else:
-        return end_text()
-
-
-def room0():
-    enemy1 = EnemyMinion()
-    return enemy1
 
 
 def room1():
@@ -73,6 +55,24 @@ def end_room():
     return None
 
 
+""" The second part will give the dialog text inbetween each room"""
+
+
+def get_text_by_room_number(number):
+    if number == 0:
+        return start_text()
+    elif number == 1:
+        return room2_text()
+    elif number == 2:
+        return room3_text()
+    elif number == 3:
+        return room4_text()
+    elif number == 4:
+        return room5_text()
+    else:
+        return end_text()
+
+
 def start_text():
     text = "By some great misfortune you have stumbled into this old and long forgotten place. " \
            "You hear a quite but disturbing sound from the room up ahead.\n\n" \
@@ -94,8 +94,8 @@ def room3_text():
 
 
 def room4_text():
-    text = "You have made it past your third trial! There seems to some sort of slime on the floor. As you approach " \
-           "the next room you see slimes that look like they are about to explode!\n" \
+    text = "You have made it past your third trial! As you approach the next room you notice some creatures made" \
+           "out of slime. Beware they reduce your armor with each attack.\n" \
            "PRESS  Continue to proceed to the next room."
     return text
 
@@ -108,7 +108,44 @@ def room5_text():
 
 
 def end_text():
-    text = "You have made it past your final trial!" \
+    text = "Congratulations, you have made it past your final trial!\n\n\n" \
            "PRESS  Continue to proceed to the end credits."
     return text
+
+
+""" The third part gives the GUI the correct background battle image as a string for each room"""
+
+
+def get_img_by_room(number):
+    if number == 1:
+        return room1_img()
+    elif number == 2:
+        return room2_img()
+    elif number == 3:
+        return room3_img()
+    elif number == 4:
+        return room4_img()
+    elif number == 5:
+        return room5_img()
+
+
+def room1_img():
+    return "game_img/minion_battle.png"
+
+
+def room2_img():
+    return "game_img/warlock_battle.png"
+
+
+def room3_img():
+    return "game_img/minion_brute_minion_battle.png"
+
+
+def room4_img():
+    return "game_img/slime_minion_slime_battle.png"
+
+
+def room5_img():
+    return "game_img/boss_battle.png"
+
 

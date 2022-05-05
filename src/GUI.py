@@ -1,4 +1,3 @@
-from basic_unit import BasicUnit, Wizard, Warrior, Shaman, EnemyMinion, EnemyBrute, EnemyBoss
 from enemy_combat_AI import enemy_combat
 from world_map import *
 from PyQt5.QtWidgets import *
@@ -6,9 +5,12 @@ from PyQt5.QtGui import *
 import sys
 
 
-#   GUI creates a usable Start and Main window where the user can play the game
-#   There are a few different buttons and boxes that allows the user to input combat choices and receive information
-#   about the game state and the unit stats
+""" This is the main file for the entire game. Since the game is heavily dependent on graphical input all most 
+    everything is handled in this file.    
+    
+    GUI creates a usable Start and Main window where the user can play the game. There are a few different buttons 
+    and boxes that allows the user to input combat choices and receive information regarding the game state and the 
+    units conditions and stats"""
 
 
 class Window(QWidget):
@@ -146,10 +148,6 @@ class Window(QWidget):
         self.continue_button.show()
 
     def continue_button_clicked(self):
-        try:
-            self.text_box.deleteLater()
-        except:
-            pass
         self.continue_button.deleteLater()
         self.get_room()
         if self.enemy_list:
@@ -162,7 +160,8 @@ class Window(QWidget):
     # Combat window below
 
     def show_combat_image(self):
-        self.label.setPixmap(QPixmap("game_img/battle_base.png"))
+        image = get_img_by_room(self.room_number)
+        self.label.setPixmap(QPixmap(image))
 
     def add_text_box(self):
         self.text_box = QTextEdit("", self)
@@ -209,7 +208,7 @@ class Window(QWidget):
             else:
                 enemy_combat(self.enemy_list, self.main_character)
                 if self.main_character.is_alive():
-                    self.text_box.append("Ally HP: " + str(self.main_character.get_hp()))
+                    self.text_box.append("Player HP: " + str(self.main_character.get_hp()))
                 else:
                     self.text_box.append("You DIED")
         else:
@@ -220,8 +219,12 @@ class Window(QWidget):
             self.text_box.clear()
             for enemy in self.enemy_list:
                 self.main_character.use_special(enemy)
-                if enemy.is_alive():
-                    self.text_box.append(str(enemy.get_status()) + " applied.   Enemy HP:" + str(enemy.get_hp()))
+                if self.main_character.name == "Warrior":
+                    self.text_box.append("Player attack: " + str(self.main_character.atk)
+                                         + "    Enemy HP:" + str(enemy.get_hp()))
+                elif enemy.is_alive():
+                    self.text_box.append(str(enemy.get_status()) + " applied to enemy.   Enemy HP:"
+                                         + str(enemy.get_hp()))
                 else:
                     self.text_box.append("Enemy is DEAD")
             self.enemies_are_alive()
@@ -233,21 +236,30 @@ class Window(QWidget):
             else:
                 enemy_combat(self.enemy_list, self.main_character)
                 if self.main_character.is_alive():
-                    self.text_box.append("Ally HP: " + str(self.main_character.get_hp()))
+                    for enemy in self.enemy_list:
+                        if self.main_character.name == "Shaman":
+                            if "Freeze, " in enemy.status:
+                                if "Burn, " in enemy.status:
+                                    if "Absorb, " in enemy.status:
+                                        self.text_box.append("Maximum amount of statuses applied")
+                        elif self.main_character.name == "Wizard":
+                            if "Stun, " in enemy.status:
+                                self.text_box.append("Maximum amount of statuses applied")
+                    if self.main_character.name == "Warrior":
+                        if self.main_character.atk == 40:
+                            self.text_box.append("Player has reached the max attack")
+                    self.text_box.append("Player HP: " + str(self.main_character.get_hp()))
                 else:
                     self.text_box.append("You DIED")
         else:
             self.end_game()
 
-    def enemies_are_alive(self):  # NEEDS FIXES. DOESN'T CHECK FOR LAST ITEM IN LIST
-        # print("BEFORE handling", self.enemy_list)
+    def enemies_are_alive(self):
         for enemy in self.enemy_list:
             if not enemy.is_alive():
                 self.enemy_list.remove(enemy)
-            # print("INSIDE", self.enemy_list, "\n Alive status", enemy.is_alive())
-        # print("AFTER for loop", self.enemy_list, "\n")
 
-    def is_combat_over(self):  # for shortening/cleaning up combat method code
+    def enemy_attack_info(self):
         pass
 
     #   Game ending part below
