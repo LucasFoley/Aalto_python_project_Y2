@@ -2,33 +2,40 @@
 
 #Strategy Game / Dungeon Crawler
 
-
-##Checkpoint2
-
+##Final project Submissions
 
 ##Current features
-- Working GUI with attack button, special attack, and semi working text box
-- Working player combat and special attack
-- World map that gives which enemies are in which room and gives a text description of whats going on
-- Basic unit class that handles all unit to unit interaction and stats involving the units such as HP and so on
-
-
+-	Fully working, semi balanced game
+-	Includes the following windows:
+    - Start
+    - Character selection
+    - Story/narrator
+    - Combat
+    - End
+-	Start, continue, and exit buttons
+-	An attack button for basic combat
+-	A use special button for special abilities
+-	A dialog box that outputs relevant information and dialog
+-	3 playable characters with unique special abilities
+-	Enemy units witch varying strategies and abilities
+-	Customized battle images for each set of enemies
 ##Manual
-- Open RUN_ME.py from the scr folder and run it
+- Open RUN_ME.py from the scr folder and run it to open the game
 - Press the play button to start the game
 - Then select the character you want to play by pressing one of the 3 buttons
-- There will appear an attack button and a use special button and a text box
-- Pressing the attack button simply attacks each enemy for a set amount based on their armor
-- Pressing the use special button will use the characters special move
-- The text box prints out combat information and relevant story/progression details
-
+- There will appear an attack button and a use special button and a dialog box
+- Pressing the attack button simply attacks each enemy for a set amount based 
+on their armor and the player’s attack
+- Pressing the use special button will use the characters’ special ability
+- The dialog box prints out combat information and relevant story/progression 
+Details
+-After either beating the game or dying the player will be brought to the end screen where they can exit and close the game by pressing the exit button
 
 ##Schedule
-- Currently I am way ahead of schedule and only have the enemy AI and special abilites to program
-- There is still a lot of visual work that can be done and small improvements and features that can be added if they make sense such as a stats button and a small pop-up box that gives the player information about the characters before selecting them
-
+- Most of the program was completed during period 3 and 4 due to time constraints in period 5
+- Only final details, small modifications, and visual features were added during period 5
 
 ##Change
-- Overall the program still looks and follows the main idea
-- The only change that has been made is that instead of having 3 ally characters at once now you can select one of the 3 at the start of the game
+- Since checkpoint 2 there haven’t been any changes in the plan of the program only improvements and fixes have been made
+
 
