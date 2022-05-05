@@ -96,7 +96,7 @@ def room3_text():
 
 def room4_text():
     text = "You have made it past your third trial! As you approach the next room you notice some creatures made " \
-           "out of slime. Beware they reduce your armor with each attack.\n" \
+           "out of slime. Beware they reduce your armor with each attack.\n\n" \
            "PRESS  Continue to proceed to the next room."
     return text
 
