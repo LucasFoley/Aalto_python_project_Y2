@@ -109,7 +109,7 @@ def room5_text():
 
 
 def end_text():
-    text = "Congratulations, you have made it past your final trial!\n\n\n" \
+    text = "Congratulations, you have made it past your final trial and managed to escape this dungeon!\n\n\n" \
            "PRESS  Continue to proceed to the end credits."
     return text
 
